@@ -581,7 +581,7 @@ $GLOBALS['notes'] = array();
 add_filter(
 	'do_shortcode_tag',
 	function( $output, $tag, $attr, $m ) {
-		if ( $tag !== '#' ) {
+		if ( '#' !== $tag ) {
 			return $output;
 		}
 
