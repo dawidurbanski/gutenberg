@@ -106,7 +106,7 @@ describe( 'ColorPicker', () => {
 			);
 		} );
 	} );
-
+	// test change
 	it( 'should fire onChange with the string value', async () => {
 		const onChange = jest.fn();
 		const color = 'rgba(1, 1, 1, 0.5)';
