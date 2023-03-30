@@ -90,7 +90,7 @@ export function useRichText( {
 			record.current.replacements = Array( value.length );
 		}
 		if ( __unstableAfterParse ) {
-			record.current.formats = __unstableAfterParse( record.current );
+			record.current = __unstableAfterParse( record.current );
 		}
 		record.current.start = selectionStart;
 		record.current.end = selectionEnd;
@@ -142,10 +142,7 @@ export function useRichText( {
 		} else {
 			_value.current = toHTMLString( {
 				value: __unstableBeforeSerialize
-					? {
-							...newRecord,
-							formats: __unstableBeforeSerialize( newRecord ),
-					  }
+					? __unstableBeforeSerialize( newRecord )
 					: newRecord,
 				multilineTag,
 				preserveWhiteSpace,
@@ -172,10 +169,7 @@ export function useRichText( {
 
 		_value.current = toHTMLString( {
 			value: __unstableBeforeSerialize
-				? {
-						...newRecord,
-						formats: __unstableBeforeSerialize( newRecord ),
-				  }
+				? __unstableBeforeSerialize( newRecord )
 				: newRecord,
 			multilineTag,
 			preserveWhiteSpace,
