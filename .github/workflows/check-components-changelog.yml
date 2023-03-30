@@ -3,6 +3,10 @@ name: Check Components Changelog
 on:
     pull_request:
         types: [opened, synchronize]
+        paths:
+            - 'packages/components/**'
+            - '!packages/components/**/stories/**'
+            - '!packages/components/src**/test/**'
 jobs:
     check:
         name: Check @wordpress/components CHANGELOG
@@ -12,22 +16,9 @@ jobs:
               uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
             - name: Check @wordpress/components CHANGELOG
               run: |
-                  package_path="packages/components/src"
                   changelog_path="packages/components/CHANGELOG.md"
-                  changed_files="$(git diff origin/trunk..HEAD --name-only)"
-                  package_changed=false
-                  changelog_changed=false
 
-                  for file in $changed_files; do
-                    if [[ "$file" == $package_path/* ]] && [[ "$file" != */stories/* ]]; then
-                      package_changed=true
-                    fi
-                    if [[ "$file" == "$changelog_path" ]]; then
-                      changelog_changed=true
-                    fi
-                  done
-
-                  if $package_changed && ! $changelog_changed; then
-                    echo "Please add a CHANGELOG entry for the Components Package"
+                  if git diff --quiet origin/trunk HEAD -- "$changelog_path"; then
+                    echo "Please add a CHANGELOG entry to $changelog_path"
                     exit 1
                   fi
